@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginUser } from "../redux/slices/loginSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAddUserMutation } from "../redux/slices/DoctorApi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +11,9 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [addUser] = useAddUserMutation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,11 +23,15 @@ const Login = () => {
       let obj = {
         email,
         password,
-        confirmPassword,
       };
-      dispatch(loginUser(obj));
-      navigate("/dashboard")
-      //   console.log(obj)
+      let data = addUser(obj);
+      data.then((res) => {
+        localStorage.setItem("token", res.data.token);
+        alert("login Successfull!!")
+        dispatch(loginUser(obj));
+        navigate("/dashboard");
+        // console.log(res,'res')
+      });
     }
   };
   return (
@@ -57,7 +64,7 @@ const Login = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-        <button className="border-blue-500  w-[30%] m-auto mt-4" type="submit">
+        <button className="border-gray-800  w-[30%] m-auto mt-4" type="submit">
           Login
         </button>
       </form>
