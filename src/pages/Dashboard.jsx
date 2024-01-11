@@ -9,8 +9,8 @@ const Dashboard = () => {
   return (
     <div>
       {isLoading && (
-        <div>
-            Loading..
+        <div className="text-center text-xl font-bold mt-10">
+            <h1>Loading..</h1>
         </div>
       )}
 
