@@ -1,8 +1,13 @@
+import AllRoutes from "./components/AllRoutes"
+import Navbar from "./components/Navbar"
 
 function App() {
 
   return (
-    <div class="text-blue-600 md:text-green-600">Hello !</div>
+    <div className="bg-[#ef97b0] pb-5">
+      <Navbar/>
+      <AllRoutes/>
+    </div>
   )
 }
 
