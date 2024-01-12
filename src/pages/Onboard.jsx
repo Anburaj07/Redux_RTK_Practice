@@ -1,60 +1,86 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useAddDoctorMutation,
+  useEditDoctorMutation,
+  useGetDoctorByIdQuery,
+} from "../redux/slices/DoctorApi";
 
 const Onboard = () => {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [specialization, setSpecialization] = useState("");
-  const [experience, setExperience] = useState("");
-  const [location, setLocation] = useState("");
-  const [slots, setSlots] = useState("");
-  const [fee, setFee] = useState("");
   const [loading, setLoading] = useState(false);
+  const date = new Date();
+  const [doctor, setDoctor] = useState({
+    name: "",
+    image: "",
+    specialization: "",
+    experience: "",
+    location: "",
+    date: date.toLocaleDateString(),
+    slots: "",
+    fee: "",
+  });
+
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const { id } = useParams();
+  const { data } = useGetDoctorByIdQuery(id);
+  const [editDoctor] = useEditDoctorMutation();
+  const [addDoctor]=useAddDoctorMutation();
+
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+    if (name == "experience" || name == "slots" || name == "fee") {
+      value = Number(value);
+    }
+    setDoctor({
+      ...doctor,
+      [name]: value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const date = new Date();
-    let obj = {
-      name,
-      image,
-      specialization,
-      experience,
-      location,
-      date: date.toLocaleDateString(),
-      slots,
-      fee,
-    };
-    console.log(obj);
-    setLoading(true);
-    fetch(`https://hospital-601o.onrender.com/doctors/appointments`, {
-      // fetch(`http://localhost:8080/doctors/appointments`, {
-      method: "POST",
-      headers: {
-        Authorization: localStorage.getItem("token"),
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(obj),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setLoading(false);
-        console.log(res);
-        navigate("/dashboard");
-      })
-      .catch((err) => console.log(err));
+    console.log(doctor);
+
+    if(isEditing){
+      editDoctor({id,...doctor});
+      alert("Doctor Appoinment Updated successfully!")
+    }else{
+      addDoctor(doctor)
+      alert("Doctor Appoinment Added successfully!")
+    }
+    setIsEditing(false);
+    navigate("/dashboard")
   };
+
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true);
+      setDoctor({ ...data });
+    } else {
+      setIsEditing(false);
+    }
+  }, [id, data]);
+
+  const { name, image, fee, slots, specialization, experience, location } =
+    doctor;
+
   return (
     <DIV>
-      <h2 className="text-2xl pb-4 text-[#0e1f75] font-medium">Onboard Doctor</h2>
+      <h2 className="text-2xl pb-4 text-[#0e1f75] font-medium">
+        {" "}
+        {isEditing ? "Edit" : "Onboard"} Doctor
+      </h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
           <input
             type="text"
             placeholder="Enter Name"
+            name="name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -63,14 +89,16 @@ const Onboard = () => {
             type="text"
             placeholder="Enter Image URL"
             value={image}
-            onChange={(e) => setImage(e.target.value)}
+            name="image"
+            onChange={handleChange}
           />
         </div>
         <div>
           <label>Specialization</label>
           <select
             value={specialization}
-            onChange={(e) => setSpecialization(e.target.value)}
+            name="specialization"
+            onChange={handleChange}
           >
             <option value="">Select Specialization</option>
             <option value="Cardiologist">Cardiologist</option>
@@ -85,7 +113,8 @@ const Onboard = () => {
             type="number"
             placeholder="Enter Experience"
             value={experience}
-            onChange={(e) => setExperience(+e.target.value)}
+            name="experience"
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -94,7 +123,8 @@ const Onboard = () => {
             type="text"
             placeholder="Enter Location"
             value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            name="location"
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -103,7 +133,8 @@ const Onboard = () => {
             type="number"
             placeholder="Enter Slots"
             value={slots}
-            onChange={(e) => setSlots(+e.target.value)}
+            name="slots"
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -112,7 +143,8 @@ const Onboard = () => {
             type="number"
             placeholder="Enter Fee"
             value={fee}
-            onChange={(e) => setFee(+e.target.value)}
+            name="fee"
+            onChange={handleChange}
           />
         </div>
 
@@ -125,7 +157,7 @@ const Onboard = () => {
           </button>
         </div>
       </form>
-      {loading && <div>...Loading</div>}
+      {/* {loading && <div>...Loading</div>} */}
     </DIV>
   );
 };

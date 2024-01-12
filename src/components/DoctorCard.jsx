@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDeleteDoctorMutation } from "../redux/slices/DoctorApi";
+import { useNavigate } from "react-router-dom";
 
 const DoctorCard = ({
   _id,
@@ -14,6 +15,7 @@ const DoctorCard = ({
   fee,
 }) => {
   const [deleteDoctor] = useDeleteDoctorMutation();
+  const navigate=useNavigate();
   return (
     <DIV>
       <div className="flex-col items-center justify-items-center text-center ">
@@ -29,7 +31,9 @@ const DoctorCard = ({
         <p>Fee : {fee}</p>
       </div>
       <BUTTONDIV>
-        <button id="edit" className="bg-green-500 hover:bg-green-600 ">
+        <button id="edit" className="bg-green-500 hover:bg-green-600 "
+        onClick={() => navigate(`/onboard/edit/${_id}`)}
+        >
           Edit
         </button>
         <button

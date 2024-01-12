@@ -44,6 +44,17 @@ export const doctorApi = createApi({
       }),
       invalidatesTags: ["Doctors"],
     }),
+    editDoctor: builder.mutation({
+      query: ({id,...payload}) => ({
+        url: `/doctors/edit/${id}`,
+        method: "PATCH",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+        body: payload,
+      }),
+      invalidatesTags: ["Doctors"],
+    }),
     deleteDoctor: builder.mutation({
       query: (id) => ({
         url: `/doctors/delete/${id}`,
@@ -60,6 +71,8 @@ export const doctorApi = createApi({
 export const {
   useAddUserMutation,
   useGetDoctorsQuery,
+  useEditDoctorMutation,
+  useAddDoctorMutation,
   useGetDoctorByIdQuery,
   useDeleteDoctorMutation,
 } = doctorApi;
