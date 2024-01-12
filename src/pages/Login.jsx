@@ -27,7 +27,7 @@ const Login = () => {
       let data = addUser(obj);
       data.then((res) => {
         localStorage.setItem("token", res.data.token);
-        alert("login Successfull!!")
+        alert("login Successfull!!");
         dispatch(loginUser(obj));
         navigate("/dashboard");
         // console.log(res,'res')
@@ -36,6 +36,7 @@ const Login = () => {
   };
   return (
     <DIV>
+      <h2 className="text-2xl pb-4 text-[#0e1f75] font-medium">User Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email Address</label>
@@ -82,6 +83,8 @@ const DIV = styled.div`
   padding: 2%;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-bottom: 280px;
+  text-align: center;
   form {
     display: flex;
     flex-direction: column;
@@ -98,7 +101,7 @@ const DIV = styled.div`
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
-    color: gray;
+    color: black;
     text-align: center;
   }
 `;

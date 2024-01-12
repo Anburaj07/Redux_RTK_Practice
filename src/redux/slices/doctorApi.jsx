@@ -17,12 +17,32 @@ export const doctorApi = createApi({
       }),
       providesTags: ["Doctors"],
     }),
+    getDoctorById: builder.query({
+      query: (id) => ({
+        url: `/doctors/${id}`,
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }),
+      providesTags: ["Doctors"],
+    }),
     addUser: builder.mutation({
       query: (user) => ({
         url: "/user/login",
         method: "POST",
         body: user,
       }),
+    }),
+    addDoctor: builder.mutation({
+      query: (payload) => ({
+        url: `/doctors/appointments`,
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+        body: payload,
+      }),
+      invalidatesTags: ["Doctors"],
     }),
     deleteDoctor: builder.mutation({
       query: (id) => ({
@@ -40,5 +60,6 @@ export const doctorApi = createApi({
 export const {
   useAddUserMutation,
   useGetDoctorsQuery,
+  useGetDoctorByIdQuery,
   useDeleteDoctorMutation,
 } = doctorApi;

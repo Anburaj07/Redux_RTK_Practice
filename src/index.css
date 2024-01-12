@@ -52,6 +52,7 @@ button {
 }
 input,select{
   background-color: white;
+  color: black;
 }
 button:hover {
   border-color: #646cff;

@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar"
 
 function App() {
   return (
-    <div className="bg-[#ef97b0] pb-10 h-lvh">
+    <div className="bg-[#ef97b0] pb-10 h-fit">
       <Navbar/>
       <AllRoutes/>
     </div>
