@@ -8,7 +8,6 @@ import {
 } from "../redux/slices/DoctorApi";
 
 const Onboard = () => {
-  const [loading, setLoading] = useState(false);
   const date = new Date();
   const [doctor, setDoctor] = useState({
     name: "",
@@ -26,7 +25,7 @@ const Onboard = () => {
   const { id } = useParams();
   const { data } = useGetDoctorByIdQuery(id);
   const [editDoctor] = useEditDoctorMutation();
-  const [addDoctor]=useAddDoctorMutation();
+  const [addDoctor] = useAddDoctorMutation();
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -43,15 +42,15 @@ const Onboard = () => {
     e.preventDefault();
     console.log(doctor);
 
-    if(isEditing){
-      editDoctor({id,...doctor});
-      alert("Doctor Appoinment Updated successfully!")
-    }else{
-      addDoctor(doctor)
-      alert("Doctor Appoinment Added successfully!")
+    if (isEditing) {
+      editDoctor({ id, ...doctor });
+      alert("Doctor Appoinment Updated successfully!");
+    } else {
+      addDoctor(doctor);
+      alert("Doctor Appoinment Added successfully!");
     }
     setIsEditing(false);
-    navigate("/dashboard")
+    navigate("/dashboard");
   };
 
   useEffect(() => {

@@ -5,16 +5,16 @@ import DoctorCard from "../components/DoctorCard";
 import { useGetDoctorsQuery } from "../redux/slices/DoctorApi";
 
 const Dashboard = () => {
-    const {data, isLoading, isSuccess }=useGetDoctorsQuery()
+  const { data, isLoading } = useGetDoctorsQuery();
   return (
     <div>
       {isLoading && (
         <div className="text-center text-xl font-bold mt-10">
-            <h1>Loading..</h1>
+          <h1>Loading..</h1>
         </div>
       )}
 
-        {/* <SELECTDIV>
+      {/* <SELECTDIV>
           <select
             placeholder="Select Specialization"
             value={specialization}
@@ -28,9 +28,7 @@ const Dashboard = () => {
         </SELECTDIV> */}
       <DIV>
         {data?.map((el) => {
-          return (
-            <DoctorCard key={el._id} {...el} />
-          );
+          return <DoctorCard key={el._id} {...el} />;
         })}
       </DIV>
     </div>
@@ -48,14 +46,14 @@ const DIV = styled.div`
   gap: 20px;
 `;
 
-const SELECTDIV=styled.div`
- width: 60%;
- margin: auto;
- margin-top: 15px;
- font-size: 18px;
- background-color: white;
- select{
-     border-radius: 15px;
- }
- border-radius: 15px;
-`
+const SELECTDIV = styled.div`
+  width: 60%;
+  margin: auto;
+  margin-top: 15px;
+  font-size: 18px;
+  background-color: white;
+  select {
+    border-radius: 15px;
+  }
+  border-radius: 15px;
+`;

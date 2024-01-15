@@ -15,7 +15,7 @@ const DoctorCard = ({
   fee,
 }) => {
   const [deleteDoctor] = useDeleteDoctorMutation();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   return (
     <DIV>
       <div className="flex-col items-center justify-items-center text-center ">
@@ -31,8 +31,10 @@ const DoctorCard = ({
         <p>Fee : {fee}</p>
       </div>
       <BUTTONDIV>
-        <button id="edit" className="bg-green-500 hover:bg-green-600 "
-        onClick={() => navigate(`/onboard/edit/${_id}`)}
+        <button
+          id="edit"
+          className="bg-green-500 hover:bg-green-600 "
+          onClick={() => navigate(`/onboard/edit/${_id}`)}
         >
           Edit
         </button>
